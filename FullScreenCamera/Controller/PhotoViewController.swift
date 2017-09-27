@@ -9,11 +9,17 @@
 import UIKit
 
 class PhotoViewController: UIViewController {
-
+	
 	@IBOutlet weak var imageView: UIImageView!
 	
 	// MARK: Model
-	var image: UIImage? { didSet { imageView.image = image } }
+	var image: UIImage? {
+		didSet {
+			DispatchQueue.main.async { [weak self] in
+				self?.imageView.image = self?.image
+			}
+		}
+	}
 	
 	@IBAction func save(_ sender: UIButton) {
 	}
