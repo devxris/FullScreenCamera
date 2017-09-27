@@ -14,4 +14,7 @@ class PhotoViewController: UIViewController {
 	
 	// MARK: Model
 	var image: UIImage? { didSet { imageView.image = image } }
+	
+	@IBAction func save(_ sender: UIButton) {
+	}
 }
