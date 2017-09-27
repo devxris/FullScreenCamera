@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Camera View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="CameraViewController" customModule="FullScreenCamera" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="As3-ID-LJr">
+                                <rect key="frame" x="160" y="592" width="55" height="55"/>
+                                <state key="normal" image="CameraButton"/>
+                                <connections>
+                                    <action selector="capture:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MPz-vF-m6N"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="As3-ID-LJr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="9Cu-EZ-02z"/>
+                            <constraint firstItem="As3-ID-LJr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="160" id="BiK-Oj-sY8"/>
+                            <constraint firstItem="As3-ID-LJr" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="572" id="eWz-PD-339"/>
+                            <constraint firstAttribute="bottom" secondItem="As3-ID-LJr" secondAttribute="bottom" constant="20" symbolic="YES" id="or8-Aq-X7v"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="cameraButton" destination="As3-ID-LJr" id="DLO-vY-Wkb"/>
+                        <segue destination="djB-cI-IoD" kind="presentation" identifier="ShowPhoto" id="EH1-uS-9jI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-57" y="138"/>
+        </scene>
+        <!--Photo View Controller-->
+        <scene sceneID="cEH-id-pfd">
+            <objects>
+                <viewController id="djB-cI-IoD" customClass="PhotoViewController" customModule="FullScreenCamera" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XZM-gL-FjT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u7B-8d-Q0U">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <view alpha="0.69999998807907104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JKc-ho-vJL">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cLn-Tx-SZP">
+                                        <rect key="frame" x="326" y="21" width="37" height="33"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Save">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MXr-dk-aFW">
+                                        <rect key="frame" x="14" y="27" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="JTU-QV-vHy"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="cross"/>
+                                        <connections>
+                                            <segue destination="XVA-9M-hxo" kind="unwind" unwindAction="unwindWithSegue:" id="KII-qd-fDk"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="cLn-Tx-SZP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JKc-ho-vJL" secondAttribute="leading" constant="20" symbolic="YES" id="BgU-7n-ihW"/>
+                                    <constraint firstAttribute="trailing" secondItem="cLn-Tx-SZP" secondAttribute="trailing" constant="12" id="BiU-Ek-Oec"/>
+                                    <constraint firstItem="MXr-dk-aFW" firstAttribute="top" secondItem="JKc-ho-vJL" secondAttribute="top" constant="27" id="R6F-wR-6CB"/>
+                                    <constraint firstItem="cLn-Tx-SZP" firstAttribute="centerY" secondItem="MXr-dk-aFW" secondAttribute="centerY" id="dy3-L5-3YW"/>
+                                    <constraint firstAttribute="bottom" secondItem="MXr-dk-aFW" secondAttribute="bottom" constant="13" id="gvU-Kg-GKY"/>
+                                    <constraint firstItem="MXr-dk-aFW" firstAttribute="leading" secondItem="JKc-ho-vJL" secondAttribute="leading" constant="14" id="y6d-LQ-3x5"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="JKc-ho-vJL" firstAttribute="top" secondItem="u7B-8d-Q0U" secondAttribute="top" id="D8T-CV-yz5"/>
+                            <constraint firstItem="JKc-ho-vJL" firstAttribute="trailing" secondItem="u7B-8d-Q0U" secondAttribute="trailing" id="Niu-LF-5td"/>
+                            <constraint firstItem="u7B-8d-Q0U" firstAttribute="top" secondItem="XZM-gL-FjT" secondAttribute="top" id="O9k-Tt-fr6"/>
+                            <constraint firstItem="6et-lr-YFU" firstAttribute="bottom" secondItem="JKc-ho-vJL" secondAttribute="bottom" constant="607" id="Xko-ga-sXX"/>
+                            <constraint firstItem="u7B-8d-Q0U" firstAttribute="leading" secondItem="XZM-gL-FjT" secondAttribute="leading" id="ZDs-KL-zt0"/>
+                            <constraint firstAttribute="trailing" secondItem="u7B-8d-Q0U" secondAttribute="trailing" id="azz-O0-Yfa"/>
+                            <constraint firstItem="JKc-ho-vJL" firstAttribute="leading" secondItem="u7B-8d-Q0U" secondAttribute="leading" id="m8L-Oe-b98"/>
+                            <constraint firstItem="u7B-8d-Q0U" firstAttribute="bottom" secondItem="6et-lr-YFU" secondAttribute="bottom" id="pqW-zz-PIb"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6et-lr-YFU"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="u7B-8d-Q0U" id="V01-yl-iLw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l6U-W8-p6b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="XVA-9M-hxo" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="663" y="137"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="CameraButton" width="122" height="122"/>
+        <image name="cross" width="40" height="40"/>
+    </resources>
+</document>
