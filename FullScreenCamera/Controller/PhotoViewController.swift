@@ -22,5 +22,8 @@ class PhotoViewController: UIViewController {
 	}
 	
 	@IBAction func save(_ sender: UIButton) {
+		guard let imageToSave = image else { return }
+		UIImageWriteToSavedPhotosAlbum(imageToSave, nil, nil, nil) // need to configure info.plist
+		dismiss(animated: true, completion: nil)
 	}
 }
