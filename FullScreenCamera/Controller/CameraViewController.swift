@@ -62,6 +62,8 @@ class CameraViewController: UIViewController {
 					// Bring the camera button to front
 					view.bringSubview(toFront: cameraButton)
 					view.addGestureRecognizer(toggleCameraSwipeRecognizer)
+					view.addGestureRecognizer(zoomInRecognizer)
+					view.addGestureRecognizer(zoomOutRecognizer)
 					
 					// start captureSession
 					captureSession.startRunning()
@@ -76,10 +78,29 @@ class CameraViewController: UIViewController {
 		}
 	}
 	
+	@IBAction func capture(_ sender: UIButton) {
+		let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
+		stillImageOutput.capturePhoto(with: settings, delegate: self)
+	}
+	
 	lazy var toggleCameraSwipeRecognizer: UISwipeGestureRecognizer = {
 		let recognizer = UISwipeGestureRecognizer()
 		recognizer.direction = .up
 		recognizer.addTarget(self, action: #selector(toggleCameras(recogizer:)))
+		return recognizer
+	}()
+	
+	lazy var zoomInRecognizer: UISwipeGestureRecognizer = {
+		let recognizer = UISwipeGestureRecognizer()
+		recognizer.direction = .right
+		recognizer.addTarget(self, action: #selector(zoomIn(recognier:)))
+		return recognizer
+	}()
+	
+	lazy var zoomOutRecognizer: UISwipeGestureRecognizer = {
+		let recognizer = UISwipeGestureRecognizer()
+		recognizer.direction = .left
+		recognizer.addTarget(self, action: #selector(zoomOut(recognier:)))
 		return recognizer
 	}()
 	
@@ -107,9 +128,34 @@ class CameraViewController: UIViewController {
 		captureSession.commitConfiguration()
 	}
 	
-	@IBAction func capture(_ sender: UIButton) {
-		let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
-		stillImageOutput.capturePhoto(with: settings, delegate: self)
+	@objc func zoomIn(recognier: UISwipeGestureRecognizer) {
+		if let zoomInFactor = currentDevice?.videoZoomFactor {
+			if zoomInFactor < 5.0 {
+				let newZoomInFactor = min(zoomInFactor + 1.0, 5.0)
+				do {
+					try currentDevice?.lockForConfiguration()
+					currentDevice?.ramp(toVideoZoomFactor: newZoomInFactor, withRate: 1.0)
+					currentDevice?.unlockForConfiguration()
+				} catch {
+					print(error)
+				}
+			}
+		}
+	}
+	
+	@objc func zoomOut(recognier: UISwipeGestureRecognizer) {
+		if let zoomOutFactor = currentDevice?.videoZoomFactor {
+			if zoomOutFactor > 1.0 {
+				let newZoomOutFactor = max(zoomOutFactor - 1.0, 1.0)
+				do {
+					try currentDevice?.lockForConfiguration()
+					currentDevice?.ramp(toVideoZoomFactor: newZoomOutFactor, withRate: 1.0)
+					currentDevice?.unlockForConfiguration()
+				} catch {
+					print(error)
+				}
+			}
+		}
 	}
 	
 	@IBAction func unwind(segue: UIStoryboardSegue) { dismiss(animated: true, completion: nil) }
