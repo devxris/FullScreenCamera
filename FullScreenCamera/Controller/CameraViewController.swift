@@ -64,6 +64,7 @@ class CameraViewController: UIViewController {
 					view.addGestureRecognizer(toggleCameraSwipeRecognizer)
 					view.addGestureRecognizer(zoomInRecognizer)
 					view.addGestureRecognizer(zoomOutRecognizer)
+					view.addGestureRecognizer(scaleInRecognizer)
 					
 					// start captureSession
 					captureSession.startRunning()
@@ -101,6 +102,12 @@ class CameraViewController: UIViewController {
 		let recognizer = UISwipeGestureRecognizer()
 		recognizer.direction = .left
 		recognizer.addTarget(self, action: #selector(zoomOut(recognier:)))
+		return recognizer
+	}()
+	
+	lazy var scaleInRecognizer: UIPinchGestureRecognizer = {
+		let recognizer = UIPinchGestureRecognizer()
+		recognizer.addTarget(self, action: #selector(scaleIn(recognizer:)))
 		return recognizer
 	}()
 	
@@ -155,6 +162,36 @@ class CameraViewController: UIViewController {
 					print(error)
 				}
 			}
+		}
+	}
+	
+	let minimumZoom: CGFloat = 1.0
+	let maximumZoom: CGFloat = 5.0
+	var lastZoomFactor: CGFloat = 1.0
+	
+	@objc func scaleIn(recognizer: UIPinchGestureRecognizer) {
+		guard let deviceZoomFactor = currentDevice?.videoZoomFactor else { return }
+		func minMax(_ factor: CGFloat) -> CGFloat {
+			return min(min(max(factor, minimumZoom), maximumZoom), currentDevice!.activeFormat.videoMaxZoomFactor)
+		}
+		func update(scale factor: CGFloat) {
+			do {
+				try currentDevice?.lockForConfiguration()
+				currentDevice?.videoZoomFactor = factor
+				currentDevice?.unlockForConfiguration()
+			} catch {
+				print(error)
+			}
+		}
+		let newScaleFactor = minMax(recognizer.scale * lastZoomFactor)
+		
+		switch recognizer.state {
+		case .changed:
+			update(scale: newScaleFactor)
+		case .ended:
+			lastZoomFactor = minMax(newScaleFactor)
+			update(scale: lastZoomFactor)
+		default : break
 		}
 	}
 	
