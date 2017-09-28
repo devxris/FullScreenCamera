@@ -61,6 +61,7 @@ class CameraViewController: UIViewController {
 					
 					// Bring the camera button to front
 					view.bringSubview(toFront: cameraButton)
+					view.addGestureRecognizer(toggleCameraSwipeRecognizer)
 					
 					// start captureSession
 					captureSession.startRunning()
@@ -73,6 +74,37 @@ class CameraViewController: UIViewController {
 		} catch {
 			print(error)
 		}
+	}
+	
+	lazy var toggleCameraSwipeRecognizer: UISwipeGestureRecognizer = {
+		let recognizer = UISwipeGestureRecognizer()
+		recognizer.direction = .up
+		recognizer.addTarget(self, action: #selector(toggleCameras(recogizer:)))
+		return recognizer
+	}()
+	
+	private var toggledCamera = false
+	
+	@objc func toggleCameras(recogizer: UISwipeGestureRecognizer) {
+		
+		captureSession.beginConfiguration()
+		// Change the device based on the current camera
+		currentDevice = toggledCamera ? backCamera : frontCamera
+		toggledCamera = !toggledCamera
+		
+		// Remove all inputs from the session
+		captureSession.inputs.forEach { captureSession.removeInput($0) }
+		
+		// Change to the new input
+		do {
+			let newInput = try AVCaptureDeviceInput(device: currentDevice!)
+			if captureSession.canAddInput(newInput) {
+				captureSession.addInput(newInput)
+			}
+		} catch {
+			print(error)
+		}
+		captureSession.commitConfiguration()
 	}
 	
 	@IBAction func capture(_ sender: UIButton) {

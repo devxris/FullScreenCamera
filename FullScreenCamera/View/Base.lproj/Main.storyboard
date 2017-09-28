@@ -89,7 +89,7 @@
                                     <constraint firstAttribute="bottom" secondItem="cLn-Tx-SZP" secondAttribute="bottom" id="yAv-4U-Gap"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="N1J-lv-s1j">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="N1J-lv-s1j">
                                 <rect key="frame" x="0.0" y="59" width="375" height="608"/>
                             </imageView>
                         </subviews>
